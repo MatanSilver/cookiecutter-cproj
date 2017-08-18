@@ -1,6 +1,9 @@
 # Flags
 CFLAGS = -std=c99 -pedantic -O1
 
+#if shared library target
+#CFLAGS += -shared -undefined dynamic_lookup
+
 TARGET_EXEC ?= {{cookiecutter.project_slug}}
 BUILD_DIR ?= ./build
 SRC_DIRS ?= ./src
