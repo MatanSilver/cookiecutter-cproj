@@ -1,5 +1,5 @@
 # Flags
-CFLAGS = -std=c99 -pedantic -O1
+CFLAGS = -std=c99 -pedantic -O1 -Wall -Werror
 DEBUG = false
 DEBUG_FLAGS =
 ifeq ($(DEBUG), true)
@@ -11,8 +11,8 @@ endif
 
 TARGET_EXEC = {{cookiecutter.project_slug}}
 TEST_EXEC = test
-BUILD_DIR = ./build
-SRC_DIRS = ./src
+BUILD_DIR = build
+SRC_DIRS = src
 
 ALL_SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
 MAIN_SRCS := $(shell find $(SRC_DIRS) \( -not -name test.c \) -and \( -name *.cpp -or -name *.c -or -name *.s \) )
@@ -57,7 +57,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(DEBUG_FLAGS) -c $< -o $@
 
 
-.PHONY: clean all test run
+.PHONY: clean all test run install uninstall
 
 clean:
 	$(RM) -r $(BUILD_DIR)
@@ -69,6 +69,12 @@ run: $(BUILD_DIR)/$(TARGET_EXEC)
 
 test: $(BUILD_DIR)/$(TEST_EXEC)
 	./build/test
+
+install: $(BUILD_DIR)/$(TARGET_EXEC)
+	cp $(BUILD_DIR)/$(TARGET_EXEC) /usr/local/bin/$(TARGET_EXEC)
+
+uninstall:
+	rm /usr/local/bin/$(TARGET_EXEC)
 
 -include $(DEPS)
 

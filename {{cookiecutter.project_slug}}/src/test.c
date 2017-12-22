@@ -5,7 +5,7 @@ int main(int argc, char **argv) {
 	for (int i = 0; i < 258; i++) {
 		char buf[256];
 		sprintf(buf, "%d != %d <-- should never happen", i, i); //should all pass
-		assert_expr(assert_err_list, i == i, "simple test", buf);
+		assert_expr(assert_err_list, true, "simple test", buf);
 	}
 	for (int i = 0; i < 258; i++) {
 		char buf[256];
