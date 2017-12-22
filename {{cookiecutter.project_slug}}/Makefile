@@ -1,5 +1,10 @@
 # Flags
 CFLAGS = -std=c99 -pedantic -O1
+DEBUG = false
+DEBUG_FLAGS =
+ifeq ($(DEBUG), true)
+	DEBUG_FLAGS := -ggdb
+endif
 
 #uncomment below if shared library target
 #CFLAGS += -shared -undefined dynamic_lookup
@@ -44,12 +49,12 @@ $(BUILD_DIR)/%.s.o: %.s
 # c source
 $(BUILD_DIR)/%.c.o: %.c
 	$(MKDIR_P) $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEBUG_FLAGS) -c $< -o $@
 
 # c++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(DEBUG_FLAGS) -c $< -o $@
 
 
 .PHONY: clean all test run
