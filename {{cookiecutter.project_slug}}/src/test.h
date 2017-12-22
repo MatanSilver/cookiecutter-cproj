@@ -33,7 +33,6 @@ assert_err_t *assert_err_new(const char *name, const char *msg) {
 	return assert_err;
 }
 
-//int assert_err_list_append(assert_err_list_t *assert_err_list, assert_err_t assert_err) {
 int assert_err_list_append(assert_err_list_t *assert_err_list, const char *name, const char *msg) {
 	if (assert_err_list->err_size < TEST_MAX_ERR) {
 		assert_err_list->assert_errs[assert_err_list->err_size].name = malloc(sizeof(char)*TEST_STR_SIZE);
@@ -70,14 +69,11 @@ void assert_err_list_dump(assert_err_list_t *assert_err_list) {
 void assert_expr(assert_err_list_t *assert_err_list, bool expr, const char *name, const char *msg) {
 	assert_err_list->assertions++;
 	if (!expr) { //if test fails
-		//assert_err_t *assert_err = assert_err_new(name, msg);
-		//int success = assert_err_list_append(assert_err_list, *assert_err);
 		int success = assert_err_list_append(assert_err_list, name, msg);
 		if (success) {
 			return;
 		} else {
 			assert_err_list->assertions--;
-			//assert_err_destroy(assert_err);
 			printf("Error overflow... dumping failures:\n");
 			assert_err_list_dump(assert_err_list);
 			assert_err_list_destroy(assert_err_list);
