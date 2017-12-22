@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#define TEST_MAX_ERR 2
+#define TEST_MAX_ERR 256
 #define TEST_STR_SIZE 256
 
 typedef struct assert_err {
@@ -20,6 +20,7 @@ assert_err_list_t *assert_err_list_new() {
 	assert_err_list_t *assert_err_list = malloc(sizeof(assert_err_list_t));
 	assert_err_list->assert_errs = malloc(sizeof(assert_err_t)*TEST_MAX_ERR);
 	assert_err_list->err_size = 0;
+	assert_err_list->assertions = 0;
 	return assert_err_list;
 }
 
@@ -55,15 +56,18 @@ void assert_err_list_dump(assert_err_list_t *assert_err_list) {
 		assert_err_t assert_err = assert_err_list->assert_errs[i];
 		printf("id: %lu\nname: %s\nmessage: %s\n\n", i, assert_err.name, assert_err.msg);
 	}
+	printf("Passed %lu of %lu tests\n", assert_err_list->assertions - assert_err_list->err_size, assert_err_list->assertions);
 }
 
 void assert_expr(assert_err_list_t *assert_err_list, bool expr, const char *name, const char *msg) {
+	assert_err_list->assertions++;
 	if (!expr) {
 		assert_err_t *assert_err = assert_err_new(name, msg);
 		int success = assert_err_list_append(assert_err_list, *assert_err);
 		if (success) {
 			return;
 		} else {
+			assert_err_list->assertions--;
 			printf("Error overflow... dumping failures:\n");
 			assert_err_list_dump(assert_err_list);
 			exit(1);
