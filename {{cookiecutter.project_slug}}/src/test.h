@@ -33,6 +33,11 @@ assert_err_t *assert_err_new(const char *name, const char *msg) {
 	return assert_err;
 }
 
+void assert_err_destroy(assert_err_t *assert_err) {
+	free(assert_err->name);
+	free(assert_err->msg);
+}
+
 int assert_err_list_append(assert_err_list_t *assert_err_list, assert_err_t assert_err) {
 	if (assert_err_list->err_size < TEST_MAX_ERR) {
 		assert_err_list->assert_errs[assert_err_list->err_size++] = assert_err;
@@ -44,8 +49,7 @@ int assert_err_list_append(assert_err_list_t *assert_err_list, assert_err_t asse
 
 void assert_err_list_destroy(assert_err_list_t *assert_err_list) {
 	for (size_t i = 0; i < assert_err_list->err_size; i++) {
-		free(assert_err_list->assert_errs[i].name);
-		free(assert_err_list->assert_errs[i].msg);
+		assert_err_destroy(assert_err_list->assert_errs + i);
 	}
 	free(assert_err_list->assert_errs);
 	free(assert_err_list);
@@ -68,6 +72,7 @@ void assert_expr(assert_err_list_t *assert_err_list, bool expr, const char *name
 			return;
 		} else {
 			assert_err_list->assertions--;
+			assert_err_destroy(assert_err);
 			printf("Error overflow... dumping failures:\n");
 			assert_err_list_dump(assert_err_list);
 			exit(1);
