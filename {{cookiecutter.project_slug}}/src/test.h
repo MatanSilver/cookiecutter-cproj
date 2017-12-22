@@ -46,7 +46,7 @@ void assert_err_list_destroy(assert_err_list_t *assert_err_list) {
 		free(assert_err_list->assert_errs[i].name);
 		free(assert_err_list->assert_errs[i].msg);
 	}
-	free(assert_err_list->assert_err);
+	free(assert_err_list->assert_errs);
 	free(assert_err_list);
 }
 
