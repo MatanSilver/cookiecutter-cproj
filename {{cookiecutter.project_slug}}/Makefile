@@ -1,5 +1,3 @@
-# Flags
-CFLAGS = -std=c99 -pedantic -O1 -Wall -Werror
 DEBUG = false
 DEBUG_FLAGS =
 ifeq ($(DEBUG), true)
@@ -28,6 +26,10 @@ DEPS := $(ALL_OBJS:.o=.d)
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 #INC_DIRS := $(shell find $(HEAD_DIRS) -type d)
 
+# Flags
+CFLAGS = -std=c99 -pedantic -O3 -Wall -Werror -march=native -flto -pipe -fstack-protector-strong --param=ssp-buffer-size=4
+CXXFLAGS = -march=native -O3 -flto -pipe -fstack-protector-strong --param=ssp-buffer-size=4
+LDFLAGS = -Wl -O3 -flto
 
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
