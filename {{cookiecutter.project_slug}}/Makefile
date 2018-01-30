@@ -67,10 +67,10 @@ clean:
 all:	$(BUILD_DIR)/$(TEST_EXEC) $(BUILD_DIR)/$(TARGET_EXEC)
 
 run: $(BUILD_DIR)/$(TARGET_EXEC)
-	./build/{{cookiecutter.project_slug}}
+	$(BUILD_DIR)/{{cookiecutter.project_slug}}
 
 test: $(BUILD_DIR)/$(TEST_EXEC)
-	./build/test
+	$(BUILD_DIR)/test
 
 install: $(BUILD_DIR)/$(TARGET_EXEC)
 	cp $(BUILD_DIR)/$(TARGET_EXEC) /usr/local/bin/$(TARGET_EXEC)
