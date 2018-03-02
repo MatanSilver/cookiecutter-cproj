@@ -10,11 +10,11 @@ endif
 TARGET_EXEC = {{cookiecutter.project_slug}}
 TEST_EXEC = test
 BUILD_DIR = build
-SRC_DIRS = src
+SRC_DIR = src
 
-ALL_SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
-MAIN_SRCS := $(shell find $(SRC_DIRS) \( -not -name test.c \) -and \( -name *.cpp -or -name *.c -or -name *.s \) )
-TEST_SRCS := $(shell find $(SRC_DIRS) \( -not -name {{cookiecutter.project_slug}}.c \) -and \( -name *.cpp -or -name *.c -or -name *.s \) )
+ALL_SRCS := $(shell find $(SRC_DIR) -name *.cpp -or -name *.c -or -name *.s)
+MAIN_SRCS := $(shell find $(SRC_DIR) \( -not -name test.c \) -and \( -name *.cpp -or -name *.c -or -name *.s \) )
+TEST_SRCS := $(shell find $(SRC_DIR) \( -not -name {{cookiecutter.project_slug}}.c \) -and \( -name *.cpp -or -name *.c -or -name *.s \) )
 ALL_OBJS := $(ALL_SRCS:%=$(BUILD_DIR)/%.o)
 MAIN_OBJS := $(MAIN_SRCS:%=$(BUILD_DIR)/%.o)
 TEST_OBJS := $(TEST_SRCS:%=$(BUILD_DIR)/%.o)
@@ -23,7 +23,7 @@ DEPS := $(ALL_OBJS:.o=.d)
 
 #invert comments in 3 lines below to use a dedicated directory for headers
 #HEAD_DIRS ?= ./include
-INC_DIRS := $(shell find $(SRC_DIRS) -type d)
+INC_DIRS := $(shell find $(SRC_DIR) -type d)
 #INC_DIRS := $(shell find $(HEAD_DIRS) -type d)
 
 # Flags
