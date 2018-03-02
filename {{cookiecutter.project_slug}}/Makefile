@@ -4,9 +4,6 @@ ifeq ($(DEBUG), true)
 	DEBUG_FLAGS := -ggdb
 endif
 
-#uncomment below if shared library target
-#CFLAGS += -shared -undefined dynamic_lookup
-
 TARGET_EXEC = {{cookiecutter.project_slug}}
 TEST_EXEC = test
 BUILD_DIR = build
@@ -31,8 +28,9 @@ CFLAGS = -std=c99 -pedantic -O3 -Wall -Werror -march=native -flto -pipe -fstack-
 CXXFLAGS = -march=native -O3 -flto -pipe -fstack-protector-strong --param=ssp-buffer-size=4
 LDFLAGS = -Wl -O3 -flto
 
+#uncomment below if shared library target
+#CFLAGS += -shared -undefined dynamic_lookup
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
-
 CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
 
 # main target
@@ -67,10 +65,10 @@ clean:
 all:	$(BUILD_DIR)/$(TEST_EXEC) $(BUILD_DIR)/$(TARGET_EXEC)
 
 run: $(BUILD_DIR)/$(TARGET_EXEC)
-	$(BUILD_DIR)/{{cookiecutter.project_slug}}
+	$(BUILD_DIR)/$(TARGET_EXEC)
 
 test: $(BUILD_DIR)/$(TEST_EXEC)
-	$(BUILD_DIR)/test
+	$(BUILD_DIR)/$(TEST_EXEC)
 
 install: $(BUILD_DIR)/$(TARGET_EXEC)
 	cp $(BUILD_DIR)/$(TARGET_EXEC) /usr/local/bin/$(TARGET_EXEC)
