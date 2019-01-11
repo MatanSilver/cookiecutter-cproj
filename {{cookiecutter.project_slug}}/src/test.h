@@ -17,17 +17,17 @@ typedef struct assert_err_list {
 } assert_err_list_t;
 
 assert_err_list_t *assert_err_list_new() {
-	assert_err_list_t *assert_err_list = malloc(sizeof(assert_err_list_t));
-	assert_err_list->assert_errs = malloc(sizeof(assert_err_t)*TEST_MAX_ERR);
+	assert_err_list_t *assert_err_list = (assert_err_list_t *)malloc(sizeof(assert_err_list_t));
+	assert_err_list->assert_errs = (assert_err_t *)malloc(sizeof(assert_err_t)*TEST_MAX_ERR);
 	assert_err_list->err_size = 0;
 	assert_err_list->assertions = 0;
 	return assert_err_list;
 }
 
 assert_err_t *assert_err_new(const char *name, const char *msg) {
-	assert_err_t *assert_err = malloc(sizeof(assert_err_t));
-	assert_err->name = malloc(sizeof(char)*TEST_STR_SIZE);
-	assert_err->msg = malloc(sizeof(char)*TEST_STR_SIZE);
+	assert_err_t *assert_err = (assert_err_t *)malloc(sizeof(assert_err_t));
+	assert_err->name = (char *)malloc(sizeof(char)*TEST_STR_SIZE);
+	assert_err->msg = (char *)malloc(sizeof(char)*TEST_STR_SIZE);
 	strcpy(assert_err->name, name);
 	strcpy(assert_err->msg, msg);
 	return assert_err;
@@ -35,8 +35,8 @@ assert_err_t *assert_err_new(const char *name, const char *msg) {
 
 int assert_err_list_append(assert_err_list_t *assert_err_list, const char *name, const char *msg) {
 	if (assert_err_list->err_size < TEST_MAX_ERR) {
-		assert_err_list->assert_errs[assert_err_list->err_size].name = malloc(sizeof(char)*TEST_STR_SIZE);
-		assert_err_list->assert_errs[assert_err_list->err_size].msg = malloc(sizeof(char)*TEST_STR_SIZE);
+		assert_err_list->assert_errs[assert_err_list->err_size].name = (char *)malloc(sizeof(char)*TEST_STR_SIZE);
+		assert_err_list->assert_errs[assert_err_list->err_size].msg = (char *)malloc(sizeof(char)*TEST_STR_SIZE);
 		strcpy(assert_err_list->assert_errs[assert_err_list->err_size].name, name);
 		strcpy(assert_err_list->assert_errs[assert_err_list->err_size++].msg, msg);
 		return 1;
