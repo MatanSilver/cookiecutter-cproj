@@ -1,0 +1,11 @@
+features:
+  - name: cpp_main
+    enabled: {{cookiecutter.cpp_main|lower}}
+    disabled: False
+    resources:
+      - src/{{cookiecutter.project_slug}}.cpp
+  - name: c_main
+    enabled: True
+    disabled: {%if cookiecutter.cpp_main|lower == "y"%}True{%else%}False{%endif%}
+    resources:
+      - src/{{cookiecutter.project_slug}}.c
